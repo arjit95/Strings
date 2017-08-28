@@ -2,6 +2,8 @@
 
 A simple editor built with [electron](electron.atom.io/) and [codemirror](https://codemirror.net).
 
+![Strings demo](https://github.com/arjit95/Strings/raw/master/screenshots/screenshot1.png)
+
 # Installation
 
 * Clone the repository with `git clone https://github.com/arjit95/Strings.git`
@@ -18,6 +20,7 @@ A simple editor built with [electron](electron.atom.io/) and [codemirror](https:
 * Themes can be applied by changing theme property. A list of all themes can be found at public/resources/codemirror/theme
 * Basic find and replace operations `Ctrl+F` or `Ctrl+Shift+F`
 * Jump to line `Ctrl+G`
+* Simple autocompletion for Javascript
 
 # Libraries
 
