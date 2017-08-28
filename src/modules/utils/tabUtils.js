@@ -15,6 +15,10 @@ function rectifyTabs(delPosition) {
             $(tab).find('button').attr('onclick', '$EG.EditorTabs.closeTab(' +prev+ ')');
         }
     });
+    //Reset title if no tabs are opened
+    if(tabs.length === 0) {
+        $('head title').text('Strings');
+    }
 }
 $EG.EditorTabs = {
     getActiveTab: function() {

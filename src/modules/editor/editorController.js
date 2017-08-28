@@ -1,5 +1,6 @@
-var fs = require('fs');
-var isThemeSet = false;
+var fs = require('fs'),
+    path = require('path'),
+    isThemeSet = false;
 //Match autocomplete css with active editor theme
 function setTheme(themeName, myCodeMirror) {
     if(!isThemeSet) {
@@ -86,6 +87,8 @@ function prepareEditor(editorTextArea, dontDeactivate) {
     $EG.Editor.ActiveEditor = myCodeMirror;
     myCodeMirror.focus();
     $EG.StatusBar.updateCursorPos();
+    var fileName = filePath ? path.basename(filePath) : 'New File';
+    $('head title').text('Strings |' + ' ' +fileName);
 }
 
 $EG.Editor = {
