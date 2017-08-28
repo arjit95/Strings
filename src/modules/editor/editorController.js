@@ -1,13 +1,16 @@
 var fs = require('fs');
-
+var isThemeSet = false;
 //Match autocomplete css with active editor theme
 function setTheme(themeName, myCodeMirror) {
-    $("#theme-css").attr('href', '../resources/codemirror/theme/'+themeName+'.css');
+    if(!isThemeSet) {
+        $('#theme-css').attr('href','../resources/codemirror/theme/' +themeName+ '.css');
+        var styledString = '\n.CodeMirror-hints, .CodeMirror-hint { \n';
+        styledString += 'background:' +  $('.CodeMirror').css('background-color') + ';\n';
+        styledString += 'color:' +  $('.CodeMirror').css('color') + ';\n';
+        $('#hints-style').text(styledString);
+    }
+    isThemeSet = true;
     myCodeMirror.setOption('theme', themeName);
-    var styledString = '\n.CodeMirror-hints, .CodeMirror-hint { \n';
-    styledString += 'background:' +  $('.CodeMirror').css('background-color') + ';\n';
-    styledString += 'color:' +  $('.CodeMirror').css('color') + ';\n';
-    $('#hints-style').text(styledString);
 }
 
 function deactivateCurrentEditor(switchTo) {
@@ -42,7 +45,9 @@ function prepareEditor(editorTextArea, dontDeactivate) {
         lineNumbers: true
     });
     myCodeMirror.getDoc().setValue('');
-    setTheme('dracula', myCodeMirror);
+    var theme = configManager.getConfigValue('theme');
+    setTheme(theme, myCodeMirror);
+
     myCodeMirror.on("keyup", function (cm, event) {
         if (!myCodeMirror.state.completionActive && /*Enables keyboard navigation in autocomplete list*/
         event.keyCode != 13 &&
