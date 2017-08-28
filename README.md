@@ -20,9 +20,9 @@ A simple editor built with [electron](electron.atom.io/) and [codemirror](https:
 # Libraries
 
 The following libraries were used:
-* [electron](electron.atom.io/)
+* [electron](https://electron.atom.io/)
 * [readdirp](https://github.com/thlorenz/readdirp)
-* [Underscore.js](underscorejs.org/)
+* [Underscore.js](https://underscorejs.org/)
 * [rfr](https://www.npmjs.com/package/rfr)
 * [CodeMirror](https://codemirror.net)
 * [jsTree](https://www.jstree.com)
