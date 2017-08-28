@@ -16,6 +16,8 @@ A simple editor built with [electron](electron.atom.io/) and [codemirror](https:
 * Tab based file editing, to close tab `Ctrl+W` or for all tabs `Ctrl+Shift+W`
 * Open quick finder with `Ctrl+P`
 * Themes can be applied by changing theme property. A list of all themes can be found at public/resources/codemirror/theme
+* Basic find and replace operations `Ctrl+F` or `Ctrl+Shift+F`
+* Jump to line `Ctrl+G`
 
 # Libraries
 
