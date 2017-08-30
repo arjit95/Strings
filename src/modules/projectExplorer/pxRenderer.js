@@ -1,6 +1,10 @@
 var fs = require('fs'),
     path = require('path');
-
+/**
+ * Gets the tree object for jsTree library
+ * @param {String} folderPath The path to the folder from which the tree is to be constructed
+ * @returns {Object} The json object to be consumed by jsTree api.
+ */
 function getTreeObj(folderPath) {
     var dirContents = [];
     fs.readdirSync(folderPath).forEach(file => {
@@ -26,6 +30,12 @@ function getTreeObj(folderPath) {
     return dirContents;
 }
 
+/**
+ * Handles the click on the px tree
+ * @param {Object} evt The event received on click
+ * @param {Object} data The data received from the jsTree click event.
+ * @returns {undefined}
+ */
 function handleClick(evt, data) {
     var filePath = data.node.li_attr.file_path;
     if(fs.statSync(filePath).isFile()) {

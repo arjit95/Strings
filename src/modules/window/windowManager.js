@@ -9,7 +9,28 @@ const electron = require('electron'),
 // be closed automatically when the JavaScript object is garbage collected.
 let win = []
 var focusedWindow = -1;
+/**
+ * Clears the window from the window stack and destroy it completely, private fn.
+ * @param {Number} index - The index of window in array 
+ * @returns {undefined}
+ */
+var __destroy__ =  function(index) {
+    if(index < 0 || index >= win.length) {
+        return;
+    }
+    win[index].instance.destroy();
+    win.splice(index, 1);
+}
+
+/**
+ * Handles multiple window implementation for the editor,
+ * Eg: When opening a new folder
+ */
 module.exports = {
+    /**
+     * Creates a new electron window with the screen width and height.
+     * @returns {undefined}
+     */
     init: function() {
         const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize
         var window = new BrowserWindow({width: width, height: height})        
@@ -30,28 +51,33 @@ module.exports = {
         bootstrap.load();
         focusedWindow = window.id;
     },
+
+    /**
+     * Gets the window id which is currently focused.
+     * @returns {Number} The id for the window
+     */
     getFocusedWindowId: function() {
         return focusedWindow;
     },
+
+    /**
+     * Removes and close the window with the given id.
+     * @param {Number} id - The id for the window
+     * @returns {undefined}
+     */
     destroyWinWithId: function(id) {
         var winIndex = _.map(win, function(window) {
                             return window.id;
                         }).indexOf(id);
-        windowManager.destroy(winIndex);
+        __destroy__(winIndex);
     },
-    destroy: function(index) {
-        if(index < 0 || index >= win.length) {
-            return;
-        }
-        win[index].instance.destroy();
-        win.splice(index, 1);
-    },
+    /**
+     * Returns all the window instances for the editor
+     * @returns {Array} All electron window instances
+     */
     getAllWindows: function() {
        return _.map(win, function(window) {
                  return window.instance;
               });
-    },
-    getWindowAtIndex: function(index) {
-        return win[index].instance;
     }
 }

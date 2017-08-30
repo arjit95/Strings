@@ -45,6 +45,10 @@ function detectEscKey(evt) {
     }
 }
 $EG.Finder = {
+    /**
+     * Opens the quick finder `Ctrl+P`
+     * @returns {undefined}
+     */
     startFinder: function() {
         var wrapper = $("#finder-wrapper");
         wrapper.css('display', 'block')

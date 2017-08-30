@@ -1,7 +1,13 @@
 const {app, BrowserWindow} = require('electron');
       extMappings = rootRequire('modules/mappings/extMap');
       path = require('path');
-//Rectify indexes from point of delete      
+//Rectify indexes from point of delete
+
+/**
+ * Rectify tab index when a tab is closed
+ * @param {Number} delPosition The tabindex for the closed tab
+ * @returns {undefined}
+ */
 function rectifyTabs(delPosition) {
     const editors = $('#editors-area .editor'),
           tabs = $('#tabs-area .tab');
@@ -20,7 +26,14 @@ function rectifyTabs(delPosition) {
         $('head title').text('Strings');
     }
 }
+/**
+ * Methods to handle multiple tabs in editor
+ */
 $EG.EditorTabs = {
+    /**
+     * Gets the active tab element
+     * @returns {Array} jQuery style selector element
+     */
     getActiveTab: function() {
         var activeTab = $("#tabs-area .tab.active");
         return activeTab.length == 0 ? undefined : activeTab;
@@ -28,6 +41,11 @@ $EG.EditorTabs = {
     isTabModified: function() {
 
     },
+    /**
+     * Closes the tab at given index
+     * @param {Number} index - The index of the tab to be closed
+     * @returns {undefined}
+     */
     closeTab: function(index) {
         const tab = $('#tabs-area .tab[tabindex="' + index + '"]');
         if(tab.length === 0) {
@@ -44,6 +62,10 @@ $EG.EditorTabs = {
             rectifyTabs(index);
         }  
     },
+    /**
+     * Closes the current tab
+     * @returns {undefined}
+     */
     closeCurrentTab: function() {
         const activeTab = $('#tabs-area .tab.active');
         if(activeTab.length == 0) {
@@ -59,12 +81,20 @@ $EG.EditorTabs = {
         $(currentTab).remove();
         rectifyTabs(tabindex);
     },
+    /**
+     * Checks if the file is already opened in editor
+     * @returns {boolean} true if the file is already opened
+     */
     isAlreadyOpened: function(filePath) {
         const tabs = $('#tabs-area').find('.tab');
         return _.map(tabs, function (tab) {
                         return tab.getAttribute('data-file');
-                    }).indexOf(filePath);
+                    }).indexOf(filePath) >= 0;
     },
+    /**
+     * Closes all the open tab
+     * @returns {undefined}
+     */
     closeAllTabs: function() {
         $EG.Editor.deactivateCurrentEditor(-1);
         var tabs = $('#tabs-area').find('.tab'),
@@ -74,6 +104,12 @@ $EG.EditorTabs = {
             $(editors[index]).remove();
         })
     },
+    /**
+     * Creates a new tab in editor
+     * @param {String} fileName - The name of the file by which the tab needs to be created
+     * @param {String} filePath - The path to the file which is to be opened
+     * @returns {undefined}
+     */
     createNewTab: function(fileName, filePath) {
         const tabArea = $('#tabs-area'),
             editorArea = $('#editors-area');

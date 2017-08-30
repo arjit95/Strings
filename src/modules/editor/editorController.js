@@ -14,6 +14,11 @@ function setTheme(themeName, myCodeMirror) {
     myCodeMirror.setOption('theme', themeName);
 }
 
+/**
+ * Deactivates the current editor
+ * @param {Number} switchTo The index of the editor
+ * @returns {undefined}
+ */
 function deactivateCurrentEditor(switchTo) {
     const currentTab = $('#tabs-area .tab.active'),
           currentEditor = $('#editors-area .editor.active');
@@ -32,6 +37,11 @@ function deactivateCurrentEditor(switchTo) {
     }
 }
 
+/**
+ * Switches the editor tab at given index
+ * @param {Number} editorIndex The index for the editor to be switched
+ * @returns {undefined}
+ */
 function switchToEditorAtIndex(editorIndex) {
     const focusedTab = $('#tabs-area').find('.tab[tabindex="'+editorIndex+'"]'),
           focusedEditor = $('#editors-area').find('.editor[editor-index="'+editorIndex+'"]');
@@ -40,6 +50,11 @@ function switchToEditorAtIndex(editorIndex) {
     $EG.Editor.prepareEditor(focusedEditor[0], true);
 }
 
+/**
+ * Initializes a new editor in the active tab
+ * @param {DOMObject} editorTextArea The text area which is to be converted into editor
+ * @param {Boolean} dontDeactivate true if the opened editor is to be deactivated
+ */
 function prepareEditor(editorTextArea, dontDeactivate) {
     var myCodeMirror = CodeMirror.fromTextArea(editorTextArea, {
         styleActiveLine:  {nonEmpty: true},
