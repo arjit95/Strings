@@ -1,15 +1,22 @@
 {
   "name": "strings",
   "version": "1.0.0",
-  "description": "Simple text editor built in electron and codemirror",
-  "main": "src/startup/client.js",
+  "description": "Simple text editor built in nw and codemirror",
+  "main": "public/static/index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "window": {
+    "toolbar": false,
+    "fullscreen": false,
+    "resizable" : true,
+    "min_width": 800,
+    "min_height": 640
+  },
+  "chromium-args": "--mixed-context",
   "author": "Arjit",
   "license": "MIT",
   "dependencies": {
-    "electron": "^1.6.6",
     "readdirp": "^2.1.0",
     "rfr": "^1.2.3",
     "underscore": "^1.8.3"

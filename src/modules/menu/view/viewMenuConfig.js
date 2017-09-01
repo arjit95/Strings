@@ -1,29 +1,14 @@
+var shortcuts = rootRequire('modules/shortcuts/shortcuts');
+
 const viewMenuTemplate = {
     label: 'View',
-    submenu: [
+    submenu: [     
         {
-           role: 'reload'
-        },
-        {
-           role: 'toggledevtools'
-        },
-        {
-           type: 'separator'
-        },
-        {
-           role: 'resetzoom'
-        },
-        {
-           role: 'zoomin'
-        },
-        {
-           role: 'zoomout'
-        },
-        {
-           type: 'separator'
-        },
-        {
-           role: 'togglefullscreen'
+           label: 'Toggle Full Screen',
+           click: function() {
+                shortcuts.toggleFullScreen();
+           },
+           key: 'F11'
         }
      ]
 }

@@ -1,14 +1,15 @@
 # Strings [WIP]
 
-A simple editor built with [electron](electron.atom.io/) and [codemirror](https://codemirror.net).
+A simple editor built with [nwjs](https://nwjs.io/) and [codemirror](https://codemirror.net).
 
 ![Strings demo](https://github.com/arjit95/Strings/raw/master/screenshots/screenshot1.png)
 
 # Installation
 
 * Clone the repository with `git clone https://github.com/arjit95/Strings.git`
-* Open a shell and perform `npm i`
-* Launch the editor with the following command `./node_modules/.bin/electron .`
+* Goto the clonoed directory and open a terminal and enter `npm i`
+* Goto [nwjs](https://nwjs.io/) and download the latest `nwjs-sdk` for your platform, extract it to a short location.
+* Launch the editor with the following command `path/to/nw .`
 
 # Features
 
@@ -25,7 +26,7 @@ A simple editor built with [electron](electron.atom.io/) and [codemirror](https:
 # Libraries
 
 The following libraries were used:
-* [electron](https://electron.atom.io/)
+* [nwjs](https://nwjs.io/)
 * [readdirp](https://github.com/thlorenz/readdirp)
 * [Underscore.js](https://underscorejs.org/)
 * [rfr](https://www.npmjs.com/package/rfr)

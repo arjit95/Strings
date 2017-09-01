@@ -59,8 +59,7 @@ function prepareEditor(editorTextArea, dontDeactivate) {
     var myCodeMirror = CodeMirror.fromTextArea(editorTextArea, {
         styleActiveLine:  {nonEmpty: true},
         lineNumbers: true
-    });
-    myCodeMirror.getDoc().setValue('');
+    });    
     var theme = configManager.getConfigValue('theme');
     setTheme(theme, myCodeMirror);
 

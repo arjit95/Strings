@@ -1,54 +1,53 @@
-const fileMenuController = rootRequire("/modules/menu/file/fileMenuController"),
-      projectManager = rootRequire('modules/project/projectManager'),
-      {BrowserWindow} = require('electron');
 const fileMenuTemplate = {
         label: 'File',
         submenu: [
             {
                 label: 'Open File',
-                accelerator: 'CommandOrControl+O',
-                click() {
-                    projectManager.openFile();
-                }
+                click: function() {
+                    $EG.Project.openFile();
+                },
+                key: 'o',
+                modifiers: 'ctrl'
             },
             {
                 label: 'Open Folder',
-                accelerator: 'CommandOrControl+Shift+O',
-                click() {
-                    projectManager.openFolder();
-                }
+                click: function() {
+                    $EG.Project.openFolder();
+                },
+                key: 'o',
+                modifiers: 'ctrl+shift'
             },
             {
                 label: 'Save File',
-                accelerator: 'CommandOrControl+S',
-                click() {
-                    webContents = BrowserWindow.fromId(windowManager.getFocusedWindowId()).webContents;
-                    webContents.send('file-shortcut', 'save-file');
-                }
+                click: function() {
+                    $EG.Project.saveFile();
+                },
+                key: 's',
+                modifiers: 'ctrl'
             },
             {
                 label: 'Save All File(s)',
-                accelerator: 'CommandOrControl+Shift+S',
-                click() {                
-                    webContents = BrowserWindow.fromId(windowManager.getFocusedWindowId()).webContents;
-                    webContents.send('file-shortcut', 'save-all-files');
-                }
+                click: function() {                
+                    $EG.Project.saveAllFiles();
+                },
+                key: 's',
+                modifiers: 'ctrl+shift'
             },
             {
                 label: 'Close File',
-                accelerator: 'CommandOrControl+W',
-                click() {
-                    webContents = BrowserWindow.fromId(windowManager.getFocusedWindowId()).webContents;
-                    webContents.send('file-shortcut', 'close-file');
-                }
+                click: function() {
+                    $EG.EditorTabs.closeCurrentTab();
+                },
+                key: 'w',
+                modifiers: 'ctrl'
             },
             {
                 label: 'Close All File(s)',
-                accelerator: 'CommandOrControl+Shift+W',
-                click() { 
-                    webContents = BrowserWindow.fromId(windowManager.getFocusedWindowId()).webContents;
-                    webContents.send('file-shortcut', 'close-all-files');
-                }
+                click: function() { 
+                    $EG.EditorTabs.closeAllTabs();
+                },
+                key: 'w',
+                modifiers: 'ctrl+shift'
             }
         ]
 }

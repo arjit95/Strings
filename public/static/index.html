@@ -51,6 +51,8 @@
           <div class="cursor-pos"></div>
         </div>
     </div> <!-- Parent container ends-->
+    <!-- Dummy file chooser !-->
+    <input type="file" id="filechooser" style="display: none;"/>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script>
     if(!window.require) {
@@ -78,11 +80,30 @@
      <script src="../resources/codemirror/addon/hint/javascript-hint.js"></script>
      <script src="../resources/codemirror/addon/selection/active-line.js"></script>
      <script src="../resources/js/jstree.js"></script>
-     <script src="../resources/js/editor.js"></script>
-     <script>
+     <script type="text/javascript">
+       function reAdjustHeight() {
+          var workingAreaHeight = 0.97,
+              statusAreaHeight = 0.03;
+          $("#working-area").height($(window).height() * workingAreaHeight);
+          $("#status-area").height($(window).height() * statusAreaHeight);
+        }
        $(document).ready(function() {
           reAdjustHeight();
+          $(window).resize(function() {
+            reAdjustHeight();
+          });
+       });
+       process.on('uncaughtException', function(e) {
+        console.error(e);
+        var win = nw.Window.get();
+        if(!win.isDevToolsOpen()) {
+          win.showDevTools();
+        }
        });
      </script>
+    <script type="text/javascript">
+      var startup = require('../../src/startup/bootstrap');
+      startup.init();
+    </script>
   </body>
 </html>

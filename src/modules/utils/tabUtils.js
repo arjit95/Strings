@@ -1,5 +1,4 @@
-const {app, BrowserWindow} = require('electron');
-      extMappings = rootRequire('modules/mappings/extMap');
+const extMappings = rootRequire('modules/mappings/extMap'),
       path = require('path');
 //Rectify indexes from point of delete
 

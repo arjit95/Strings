@@ -1,39 +1,73 @@
-const {BrowserWindow} = require('electron');
-
 const editMenuTemplate = {
     label: 'Edit',
     submenu: [
        {
-            role: 'undo'
+            label: "Undo",
+            click: function() {
+                if($EG.Editor.ActiveEditor) {
+                    CodeMirror.commands.undo($EG.Editor.ActiveEditor);
+                }
+            },
+            key: "z",
+            modifiers: "ctrl"
        },
        {
-            role: 'redo'
+            label: "Redo",
+            click: function() {
+                if($EG.Editor.ActiveEditor) {
+                    CodeMirror.commands.redo($EG.Editor.ActiveEditor);
+                }
+            },
+            key: "y",
+            modifiers: "ctrl"
        },
        {
-            type: 'separator'
+            label: "Cut",
+            click: function() {
+                if($EG.Editor.ActiveEditor && $EG.Editor.ActiveEditor.getSelection().length > 0) {
+                    document.execCommand('cut');
+                }
+            },
+            key: "x",
+            modifiers: "ctrl"
        },
        {
-            role: 'cut'
+            label: "Copy",
+            click: function() {
+                if($EG.Editor.ActiveEditor && $EG.Editor.ActiveEditor.getSelection().length > 0) {
+                    document.execCommand('copy');
+                }
+            },
+            key: "c",
+            modifiers: "ctrl"
        },
        {
-            role: 'copy'
+            label: "Paste",
+            click: function() {
+                if($EG.Editor.ActiveEditor && $EG.Editor.ActiveEditor.getSelection().length > 0) {
+                    document.execCommand('paste');
+                }
+            },
+            key: "y",
+            modifiers: "ctrl"
        },
        {
-            role: 'paste'
-       },
-       {
-            role: 'delete'
-       },
-       {
-            role: 'selectall'
+            label: "Select All",
+            click: function() {
+                if($EG.Editor.ActiveEditor) {
+                    CodeMirror.commands.selectAll($EG.Editor.ActiveEditor);
+                }
+            },
+            key: "a",
+            modifiers: "ctrl"
        },
        {
             label: 'Find File',
-            accelerator: 'CommandOrControl+P',
-            click() {
-                webContents = BrowserWindow.fromId(windowManager.getFocusedWindowId()).webContents;
-                webContents.send('edit-shortcut', 'Find File');
-            }
+            click: function() {
+               $EG.Finder.startFinder();
+            },
+            key: "p",
+            modifiers: "ctrl"
         }
     ]
  }
