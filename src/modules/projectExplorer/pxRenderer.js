@@ -39,7 +39,13 @@ function getTreeObj(folderPath) {
 function handleClick(evt, data) {
     var filePath = data.node.li_attr.file_path;
     if(fs.statSync(filePath).isFile()) {
-        $EG.EditorTabs.createNewTab(path.basename(filePath), filePath);
+        //openedFileIndex >=0 if file is opened
+        var openedFileIndex = $EG.EditorTabs.getOpenedFileIndex(filePath);
+        if(openedFileIndex < 0) {
+            $EG.EditorTabs.createNewTab(path.basename(filePath), filePath);
+        } else {
+            $EG.Editor.deactivateCurrentEditor(openedFileIndex);
+        }
     } 
 }
 $EG.PxTree = {

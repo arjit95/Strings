@@ -74,21 +74,26 @@ $EG.EditorTabs = {
         const tabindex = activeTab.attr('tabindex'),
               currentEditor =  $('#editors-area .editor[editor-index="' + tabindex + '"]'),
               currentTab = $('#tabs-area .tab[tabindex="' + tabindex + '"]');
-        //Close and switch to previous editor
-        $EG.Editor.deactivateCurrentEditor(tabindex-1);
+        //Close and switch to previous or next editor
+        var switchTo = -1;
+        if($('#tabs-area .tab').length > 1) {
+            var index = parseInt(tabindex);
+            switchTo = index === 0 ? index+1 : index-1;
+        }
+        $EG.Editor.deactivateCurrentEditor(switchTo);
         $(currentEditor).remove();
         $(currentTab).remove();
         rectifyTabs(tabindex);
     },
     /**
      * Checks if the file is already opened in editor
-     * @returns {boolean} true if the file is already opened
+     * @returns {Number} >= 0 if the file is already opened
      */
-    isAlreadyOpened: function(filePath) {
+    getOpenedFileIndex: function(filePath) {
         const tabs = $('#tabs-area').find('.tab');
         return _.map(tabs, function (tab) {
                         return tab.getAttribute('data-file');
-                    }).indexOf(filePath) >= 0;
+                    }).indexOf(filePath);
     },
     /**
      * Closes all the open tab
