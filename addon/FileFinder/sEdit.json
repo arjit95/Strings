@@ -1,0 +1,10 @@
+{
+  "entry": "index.js",
+  "activationEvents": [
+  		"FinderConstants.ON_FINDER_OPEN"
+  ],
+  "deactivationEvents": [
+      "FinderConstants.ON_FINDER_CLOSE"
+  ],
+  "uid": "36B36EA450761C8D75170F27F320A37B"
+}

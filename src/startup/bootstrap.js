@@ -10,6 +10,9 @@ var loadDependencies = function() {
     //Load main modules into a global to avoid reloads
     console.log("Started: Loading global modules");
     window['$EG'] = {};
+    require('./constants'),
+    require('./eventEmitter'),
+    require('./modules'),
     rootRequire('modules/project/projectManager'),
     rootRequire('modules/projectExplorer/pxRenderer'),
     rootRequire('modules/editor/editorController'),
