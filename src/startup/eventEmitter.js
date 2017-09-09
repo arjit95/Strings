@@ -37,7 +37,7 @@ $EG.EventEmitter = {
         if(addedEvents[uid]) {
             _.each(addedEvents[uid], function(moduleEvts) {
                 _.each(moduleEvts, function(event) {
-                    console.log('Removing event: '+ event.name + 'for uid '+ uid);
+                    console.log('Removing event: '+ event.name + ' for uid '+ uid);
                     eventEmitter.removeListener(event.name, event.listener);
                 });
             });

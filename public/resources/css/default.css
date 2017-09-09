@@ -71,3 +71,9 @@ a.jstree-default, a.jstree-clicked {
 #finder-wrapper #finder-results {
     background: rgba(255,255,255,0.2);
 }
+#finder-results li a{ 
+    color: white;
+}
+#finder-results li:hover,#finder-results li.active {
+    background: rgba(14, 104, 233, 0.71);
+}

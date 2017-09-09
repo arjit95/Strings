@@ -21,6 +21,31 @@ $EG.Finder = {
         wrapper.find('#finder-results').on('click','li', function() {
             $EG.EventEmitter.emit($EG.Constants.FinderConstants.ON_FINDER_ENTRY_CLICK, $(this));
         });
+        var currentIndex = -1;
+        wrapper.on('keydown', function(ev) {
+            //Up arrow
+            var keycode = (ev.keyCode ? ev.keyCode : ev.which);
+            var finderResults = wrapper.find('#finder-results').find('li');
+            if(keycode === 38) {
+                var index = currentIndex <= 0 ? finderResults.length -1 : currentIndex - 1;
+                currentIndex = index;
+            } else if(keycode === 40) { //Down arrow
+                var index = currentIndex >= finderResults.length - 1 ? 0 : currentIndex + 1;
+                currentIndex = index;
+            }
+            if(currentIndex >= 0 && currentIndex < finderResults.length) {
+                if(keycode === 13) {
+                    var active = finderResults.parent().find('li.active');
+                    if(active) {
+                        $EG.EventEmitter.emit($EG.Constants.FinderConstants.ON_FINDER_ENTRY_CLICK,
+                            active);
+                    }
+                } else if(keycode === 38 || keycode === 40) {
+                    finderResults.removeClass('active');
+                    finderResults.eq(currentIndex).addClass('active');
+                }
+            }
+        });
         wrapper.find('#finder[type="text"]').off('textInput input', '**');
         wrapper.find('#finder[type="text"]').on('textInput input', function() {
             $EG.EventEmitter.emit($EG.Constants.FinderConstants.ON_FINDER_INPUT, $(this)); 
@@ -40,11 +65,13 @@ $EG.Finder = {
     deactivateFinder: function() {
         $(window).off('keyup', detectEscKey);
         $EG.Finder.clearFinderResults();
-        $('#finder-wrapper').css('display', 'none');
+        $('#finder-wrapper #finder').val('');
+        var finderWrapper = $('#finder-wrapper');
+        finderWrapper.off('keydown', '**');
+        finderWrapper.css('display', 'none');
         $EG.EventEmitter.emit($EG.Constants.FinderConstants.ON_FINDER_CLOSE);
     },
     clearFinderResults: function() {
         $('#finder-wrapper #finder-results').empty();
-        $('#finder-wrapper #finder').val('');
     }
 };
