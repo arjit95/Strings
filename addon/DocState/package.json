@@ -1,0 +1,11 @@
+{
+  "name": "docstate",
+  "version": "1.0.0",
+  "description": "Addon to mark the state for the active document in editor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Arjit",
+  "license": "ISC"
+}

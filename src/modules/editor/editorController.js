@@ -58,33 +58,19 @@ function switchToEditorAtIndex(editorIndex) {
 function prepareEditor(editorTextArea, dontDeactivate) {
     var myCodeMirror = CodeMirror.fromTextArea(editorTextArea, {
         styleActiveLine:  {nonEmpty: true},
-        lineNumbers: true
+        lineNumbers: true,
+        viewportMargin: Infinity
     });    
     var theme = configManager.getConfigValue('theme');
     setTheme(theme, myCodeMirror);
-
-    myCodeMirror.on("keyup", function (cm, event) {
-        if (!myCodeMirror.state.completionActive && /*Enables keyboard navigation in autocomplete list*/
-        event.keyCode != 13 &&
-        !(event.ctrlKey || event.altKey) && 
-        ((event.keyCode >= 65 && event.keyCode <= 90) ||
-        (event.keyCode >= 48 && event.keyCode <= 57) ||
-        (event.keyCode >= 97 && event.keyCode <= 122))) {        /*Enter - do not open autocomplete list just after item has been selected in it*/ 
-            CodeMirror.commands.autocomplete(cm, null, {completeSingle: false});
-        }
-        $EG.StatusBar.updateCursorPos();
-        if(event.ctrlKey) {
-            event.preventDefault();
-            event.codemirrorIgnore = true;
-            return false;
-        }
-    });
+    
+    myCodeMirror.on('change', function (cm, event) {
+        CodeMirror.commands.autocomplete(cm, null, {completeSingle: false});
+        $EG.EventEmitter.emit($EG.Constants.Editor.DOC_EDITED, myCodeMirror);
+    })
 
     var filePath = $(editorTextArea).attr('data-path');
-    if(editorTextArea.value && editorTextArea.value.length > 0) {
-        myCodeMirror.getDoc().setValue(editorTextArea.value);
-    }
-    else if(filePath) {
+    if(filePath) {
         console.log('Started reading file from path ' +filePath);
         console.time(filePath);
         var readStream = fs.createReadStream(filePath, 'utf8');
@@ -92,6 +78,10 @@ function prepareEditor(editorTextArea, dontDeactivate) {
             myCodeMirror.replaceRange(chunk, CodeMirror.Pos(myCodeMirror.lastLine()));
         }).on('end', function() {
             console.timeEnd(filePath);
+            //Clear the undo/redo history and set cursor to start.
+            myCodeMirror.getDoc().clearHistory();
+            myCodeMirror.setCursor(0,0);
+            $EG.EventEmitter.emit($EG.Constants.Editor.DOC_OPENED);
         });
     }
     var editorIndex = editorTextArea.getAttribute('editor-index');
@@ -100,7 +90,6 @@ function prepareEditor(editorTextArea, dontDeactivate) {
     }
     $EG.Editor.ActiveEditor = myCodeMirror;
     myCodeMirror.focus();
-    $EG.StatusBar.updateCursorPos();
     var fileName = filePath ? path.basename(filePath) : 'New File';
     $('head title').text('Strings |' + ' ' +fileName);
 }

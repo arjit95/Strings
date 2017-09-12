@@ -63,13 +63,19 @@ a.jstree-default, a.jstree-clicked {
     background: rgba(255,255,255, 0.2) !important;
 }
 
-#finder-wrapper #finder, #finder-wrapper #finder-results {
-    border:1px solid rgba(255,255,255,0.2);
-    background: rgba(255,255,255,0.08);
-    color: white;
-}
+#finder-wrapper #finder,
 #finder-wrapper #finder-results {
-    background: rgba(255,255,255,0.2);
+    border:1px solid rgba(255,255,255,0.2);
+}
+
+#finder-wrapper #finder {
+    background: white;
+    color: rgb(50,50,50);
+}
+
+#finder-wrapper #finder-results {
+    background: rgb(50,50,50);
+    color: white;
 }
 #finder-results li a{ 
     color: white;

@@ -13,5 +13,11 @@ $EG.Constants = {
     Modules: {
         MODULE_ADD : 'moduleAdd',
         MODULE_REMOVE: 'moduleRemove'
+    },
+    Editor: {
+        DOC_OPENED: 'docOpened',
+        DOC_EDITED: 'docEdit',
+        DOC_SAVED: 'docSaved',
+        ALL_DOCS_SAVED: 'allDocsSaved'
     }
 }

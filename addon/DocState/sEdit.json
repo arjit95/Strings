@@ -1,0 +1,9 @@
+{
+  "entry": "index.js",
+  "activationEvents": [
+  		"Editor.DOC_OPENED"
+  ],
+  "deactivationEvents": [
+  ],
+  "uid": "f658d6b945a2e90da7c35e5ba248a13e"
+}

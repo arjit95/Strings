@@ -3,13 +3,21 @@ var fs = require('fs'),
     configManager = rootRequire('modules/utils/configManager'),
     templatesPath = path.join(process.cwd(), "public", "static");
 
-function writeFile(filePath, data) {
-    fs.writeFile(filePath, data, function(err) {
-        if(err) {
-            console.log(err);
-        }
-        console.log('Save successful');
-    });
+function writeFile(filePath, data, cb) {
+    var multiple = typeof filePath === 'object';
+    var totalFiles = multiple ? filePath.length : 1;
+    _.each(totalFiles, function(file, index) {
+        fs.writeFile(filePath, data, function(err) {
+            --totalFiles;
+            if(totalFiles === 0) {
+                cb && cb(err);
+            }
+            if(err) {
+                console.log(err);
+                return;
+            }
+        });
+    })
 }
 var __showFileChooser__ = function(elem, cb) {
     elem.addEventListener('change', function(evt) {
@@ -28,7 +36,9 @@ $EG.Project = {
         }
         var filePath = $(activeTab).attr('data-file');
         var data = $EG.Editor.ActiveEditor.getValue();        
-        writeFile(filePath, data);
+        writeFile(filePath, data, function(err) {
+            $EG.EventEmitter.emit($EG.Constants.Editor.DOC_SAVED);
+        });
     },
     saveAllFiles: function() {
         var tabs = $('#tabs-area .tab'),
@@ -36,6 +46,8 @@ $EG.Project = {
         if(tabs.length == 0) {
             return;
         }
+        var files = [];
+        var datas = [];
         _.each(tabs, function(tab) {
             var isActive = tab.classList.contains('active'),
                 index = tab.getAttribute('tabindex'),
@@ -47,8 +59,12 @@ $EG.Project = {
             else {
                 data = editors[index].value;
             }
-            writeFile(path, data);
-        })
+            files.push(path);
+            datas.push(data);
+        });
+        writeFile(files, datas, function(err) {
+            $EG.EventEmitter.emit($EG.Constants.Editor.ALL_DOCS_SAVED);
+        });
     },
     openFile: function() {
         var inputElem = document.querySelector('#filechooser');

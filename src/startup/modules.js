@@ -11,7 +11,16 @@ var addonsDir = path.join(process.cwd(), 'addon');
 
 //Converts events constant notation to values
 function processEvents(evt) {
-   return _.findWhere($EG.Constants, evt)[evt.split('.')[evt.split('.').length-1]];
+   var keys = evt.split('.');
+   var value;
+   _.each(keys, function(key, index) {
+        if(index == 0) {
+            value = $EG.Constants[key];
+        } else {
+            value = value[key];
+        }
+   })
+   return value;
 }
 fs.readdir(addonsDir, function(err, folders) {
     folders.forEach(function(folder) {

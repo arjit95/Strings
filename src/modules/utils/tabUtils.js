@@ -37,9 +37,6 @@ $EG.EditorTabs = {
         var activeTab = $("#tabs-area .tab.active");
         return activeTab.length == 0 ? undefined : activeTab;
     },
-    isTabModified: function() {
-
-    },
     /**
      * Closes the tab at given index
      * @param {Number} index - The index of the tab to be closed
@@ -108,6 +105,27 @@ $EG.EditorTabs = {
             $(editors[index]).remove();
         })
     },
+    markTabDirty: function(tabElem) {
+        var activeTab = tabElem || $EG.EditorTabs.getActiveTab();
+        activeTab = activeTab.find('span')[0];
+        var tabContent = activeTab.innerHTML;
+        activeTab.innerHTML = tabContent + "*";
+    },
+    isTabMarkedDirty: function(tabElem) {
+        var activeTab = tabElem || $EG.EditorTabs.getActiveTab();
+        activeTab = activeTab.find('span')[0];
+        var tabContent = activeTab.innerHTML;
+        return tabContent.endsWith("*");
+    },
+    removeDirtyMarked: function(all) {
+        var tabs = all ? $('#tabs-area').find('.tab') : [$EG.EditorTabs.getActiveTab()];
+        _.each(tabs, function(tab) {
+            if($EG.EditorTabs.isTabMarkedDirty(tab)) {
+                var tabContent = tab.find('span')[0].innerHTML;
+                tab.find('span')[0].innerHTML = tabContent.substring(0, tabContent.length - 1);
+            }
+        });
+    },
     /**
      * Creates a new tab in editor
      * @param {String} fileName - The name of the file by which the tab needs to be created
@@ -123,7 +141,7 @@ $EG.EditorTabs = {
             tabs = tabArea.find('.tab'),
             editor = `<textarea class="editor active javascript" data-language="`+(lang ? lang.name : ext)+`" 
             data-path="`+filePath+`" editor-index="` +tabs.length+ `"></textarea>`,
-            tab = `<li class="tab active" tabindex="` +tabs.length+ `" data-file="`+filePath+`">` + fileName + `
+            tab = `<li class="tab active" tabindex="` +tabs.length+ `" data-file="`+filePath+`"><span>` + fileName + `</span>
             <button type="button" class="close" aria-label="Close" 
             onclick="$EG.EditorTabs.closeTab(`+tabs.length+`)">
             <span aria-hidden="true">&times;</span></button></li>`;
