@@ -43,4 +43,5 @@ $EG.EventEmitter.addListener(finderConst.ON_FINDER_ENTRY_CLICK, function(entry) 
     var filePath = entry.attr('path');
     $EG.EditorTabs.createNewTab(path.basename(filePath), filePath);
     $EG.Finder.deactivateFinder();
+    window.event.preventDefault();
 }, sEdit.uid);
